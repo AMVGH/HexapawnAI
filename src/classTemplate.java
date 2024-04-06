@@ -7,6 +7,7 @@ public abstract class classTemplate {
     private int Strength;
     private int Intelligence;
     private int Defense;
+    private String characterOwnership = "XX";
     private boolean canTakeTurn = true;
     private boolean isAlive = true;
 
@@ -64,6 +65,15 @@ public abstract class classTemplate {
             isAlive = false;
             canTakeTurn = false;
         }
+    }
+    //Used to see whether a peice belongs to an AI or Player.
+    public String getCharacterOwnership(){
+        return characterOwnership;
+    }
+
+    //Sets ownership to either an AI or Player
+    public void setCharacterOwnership(String characterOwner){
+        characterOwnership = characterOwner;
     }
     //If false no turns should be awarded to character, used to drive a lot of interactions within game
     public boolean isAlive() {

@@ -26,13 +26,16 @@ public class Main {
                         System.out.print("Selection "+(i+1)+": ");
                         characterChoice = sc.nextInt();
                         classTemplate temp = chosenCharacter(characterChoice);
+                        temp.setCharacterOwnership("P1");
                         chosenCharacters[i] = temp;
                     }
-                    //Characters that user selected are placed on game board
-                    gameBoard.initializePlayerCharacterSelections(chosenCharacters);
-                    //AI's character selections are placed on game board
-                    gameBoard.initializeAICharacterSelctions();
+                    System.out.println();
+                    //Sets Up Initial Game Board
+                    gameBoard.boardSetup(chosenCharacters);
+                    //Displays Game Board
                     gameBoard.displayBoard();
+
+
 
 
 

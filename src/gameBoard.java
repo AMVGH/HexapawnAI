@@ -4,6 +4,12 @@ public class gameBoard {
     classTemplate[][] gameBoard = new classTemplate[3][3];
 
     public void displayBoard(){
+        for (int i = 0; i < 3; i++){
+            for (int j = 0; j < 3; j++){
+                System.out.print(gameBoard[i][j].getCharacterOwnership() + "\t");
+            }
+            System.out.println();
+        }
 
 
     }
@@ -11,6 +17,15 @@ public class gameBoard {
     public void initializePlayerCharacterSelections(classTemplate[] characterSelections){
         for (int i = 0; i < 3; i++){
             gameBoard[0][i] = characterSelections[i];
+        }
+    }
+
+    public void boardSetup(classTemplate[] characterSelections){
+        initializeAICharacterSelctions();
+        initializePlayerCharacterSelections(characterSelections);
+        for (int i = 0; i < 3; i++){
+            classTemplate temp = new humanBarbarian();
+            gameBoard[1][i] = temp;
         }
     }
 
@@ -22,19 +37,24 @@ public class gameBoard {
             int randomSelection = rand.nextInt(1, 6);
             if (randomSelection == 1) {
                 temp = new humanBarbarian();
+                temp.setCharacterOwnership("AI");
                 gameBoard[2][i] = temp;
             } else if (randomSelection == 2) {
                 temp = new elfRanger();
+                temp.setCharacterOwnership("AI");
                 gameBoard[2][i] = temp;
             } else if (randomSelection == 3) {
                 temp = new tieflingWarlock();
+                temp.setCharacterOwnership("AI");
                 gameBoard[2][i] = temp;
             } else if (randomSelection == 4) {
                 temp = new dwarfCleric();
+                temp.setCharacterOwnership("AI");
                 gameBoard[2][i] = temp;
             } else if (randomSelection == 5) {
                 temp = new elfWizard();
-                gameBoard[2][i] = new elfWizard();
+                temp.setCharacterOwnership("AI");
+                gameBoard[2][i] = temp;
             }
         }
     }
