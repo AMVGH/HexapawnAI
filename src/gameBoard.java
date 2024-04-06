@@ -5,11 +5,38 @@ public class gameBoard {
 
     public void displayBoard(){
 
+
     }
 
-    public void updatePlayerCharacterSelections(classTemplate[] characterSelections){
+    public void initializePlayerCharacterSelections(classTemplate[] characterSelections){
+        for (int i = 0; i < 3; i++){
+            gameBoard[0][i] = characterSelections[i];
+        }
+    }
 
-
+    public void initializeAICharacterSelctions(){
+        //Random Selction of a Class
+        for (int i = 0; i < 3; i++){
+            classTemplate temp;
+            Random rand = new Random();
+            int randomSelection = rand.nextInt(1, 6);
+            if (randomSelection == 1) {
+                temp = new humanBarbarian();
+                gameBoard[2][i] = temp;
+            } else if (randomSelection == 2) {
+                temp = new elfRanger();
+                gameBoard[2][i] = temp;
+            } else if (randomSelection == 3) {
+                temp = new tieflingWarlock();
+                gameBoard[2][i] = temp;
+            } else if (randomSelection == 4) {
+                temp = new dwarfCleric();
+                gameBoard[2][i] = temp;
+            } else if (randomSelection == 5) {
+                temp = new elfWizard();
+                gameBoard[2][i] = new elfWizard();
+            }
+        }
     }
 
     public void battle(classTemplate characterOne, classTemplate characterTwo){

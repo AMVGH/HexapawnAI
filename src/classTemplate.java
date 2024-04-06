@@ -58,16 +58,17 @@ public abstract class classTemplate {
         //Must be absolute value or there is a chance of subtracting a negative according to armor. (Character will gain health upon being hit)
         Health = Health - Math.abs(damageIncoming);
         if (Health <= 0){
+            //Cleanup so no negative numbers are shown in combat
             Health = 0;
+            //Update state
             isAlive = false;
             canTakeTurn = false;
         }
     }
-    //If false no turns should be awarded to character, used to drive alot of interactions within game
+    //If false no turns should be awarded to character, used to drive a lot of interactions within game
     public boolean isAlive() {
         return isAlive;
     }
-
     public String getName(){
         return Name;
     }

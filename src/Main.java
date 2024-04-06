@@ -2,48 +2,54 @@ import java.util.Scanner;
 
 public class Main {
     public static void main(String[] args) {
+        //Initializations
         Scanner sc = new Scanner(System.in);
         gameBoard gameBoard = new gameBoard();
+        //Menu variable
         int userChoice;
-
         do {
             displayMenu();
             userChoice = sc.nextInt();
             switch (userChoice){
                 case 1:
+                    //Variable used to select user's characters
                     int characterChoice;
-
-
+                    //Choice display
                     System.out.println("Before you can begin your journey, you must chose 3 comrades to join you on your adventure..." +
                             "\n");
                     displayCharacters();
 
-                    System.out.print("Selction 1: ");
-                    characterChoice = sc.nextInt();
-                    classTemplate characterOne = chosenCharacter(characterChoice);
-                    System.out.print("Selction 2: ");
-                    characterChoice = sc.nextInt();
-                    classTemplate characterTwo = chosenCharacter(characterChoice);
-                    System.out.print("Selction 3: ");
-                    characterChoice = sc.nextInt();
-                    classTemplate characterThree = chosenCharacter(characterChoice);
+                    //Array initialized to store selected characters
+                    classTemplate[] chosenCharacters = new classTemplate[3];
+                    //Character selection
+                    for (int i = 0; i < 3; i++){
+                        System.out.print("Selection "+(i+1)+": ");
+                        characterChoice = sc.nextInt();
+                        classTemplate temp = chosenCharacter(characterChoice);
+                        chosenCharacters[i] = temp;
+                    }
+                    //Characters that user selected are placed on game board
+                    gameBoard.initializePlayerCharacterSelections(chosenCharacters);
+                    //AI's character selections are placed on game board
+                    gameBoard.initializeAICharacterSelctions();
+                    gameBoard.displayBoard();
 
-                    classTemplate[] chosenCharacters = {characterOne, characterTwo, characterThree};
-
-                    gameBoard.updatePlayerCharacterSelections(chosenCharacters);
 
 
                     break;
             }
+            //Quit
         } while (userChoice != 2);
 
     }
 
+    //Outer display menu for either quitting or beginning a match
     public static void displayMenu(){
         System.out.println("1 - Start A Match" +
                 "\n2 - Quit");
     }
 
+    //Character choice, stat, and display menu
     public static void displayCharacters(){
         System.out.println("1 - Human Barbarian" +
                 "\n" +
@@ -90,6 +96,7 @@ public class Main {
         System.out.println();
     }
 
+    //Helper method to assist in character selection
     public static classTemplate chosenCharacter(int selection){
         classTemplate chosenCharacter = null;
         if (selection == 1){
