@@ -1,6 +1,7 @@
 import java.util.Random;
 
 public class gameBoard {
+
     classTemplate[][] gameBoard = new classTemplate[3][3];
 
     public void displayBoard(){
