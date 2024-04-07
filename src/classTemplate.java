@@ -41,10 +41,10 @@ public abstract class classTemplate {
         int randomNum = random.nextInt(8, 18);
         if (Intelligence >= randomNum){
             canTakeTurn = true;
-            System.out.println(Name + "'s Attack Hit!");
+            System.out.println(characterOwnership + "'s " + Name + "'s Attack Hit!");
         } else {
             canTakeTurn = false;
-            System.out.println(Name + "'s Attack Missed!");
+            System.out.println(characterOwnership + "'s " + Name + "'s Attack Missed!");
         }
         return canTakeTurn;
     }

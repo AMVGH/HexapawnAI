@@ -18,7 +18,6 @@ public class Main {
                     System.out.println("Before you can begin your journey, you must chose 3 comrades to join you on your adventure..." +
                             "\n");
                     displayCharacters();
-
                     //Array initialized to store selected characters
                     classTemplate[] chosenCharacters = new classTemplate[3];
                     //Character selection
@@ -38,7 +37,7 @@ public class Main {
 
 
 
-
+                    System.out.println();
                     break;
             }
             //Quit

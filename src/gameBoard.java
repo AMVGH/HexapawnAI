@@ -10,8 +10,6 @@ public class gameBoard {
             }
             System.out.println();
         }
-
-
     }
 
     public void initializePlayerCharacterSelections(classTemplate[] characterSelections){
@@ -30,7 +28,7 @@ public class gameBoard {
     }
 
     public void initializeAICharacterSelctions(){
-        //Random Selction of a Class
+        //Random Selection of a Class
         for (int i = 0; i < 3; i++){
             classTemplate temp;
             Random rand = new Random();
@@ -93,7 +91,9 @@ public class gameBoard {
         System.out.println();
     }
 
-
-
-
+    public void updateState(int[] integerBoard){
+        //iterate through board
+        //if boardLocation [i][j] == 1 set P1
+        //if
+    }
 }
