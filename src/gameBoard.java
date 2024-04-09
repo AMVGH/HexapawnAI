@@ -12,7 +12,21 @@ public class gameBoard {
             System.out.println();
         }
 
-
+    }
+    public String getCharacterOwnership(int x, int y){ // 04/09/2024 Rhett Ward, needed for battle check
+        return gameBoard[y][x].getCharacterOwnership();
+    }
+    public classTemplate getCharacter(int x, int y){ // 04/09/2024 Rhett Ward, needed for battle
+        return gameBoard[y][x];
+    }
+    public void move(int x, int y, int x2, int y2){ // 04/09/2024 Rhett Ward, move the DND board
+        String temp;
+        temp = gameBoard[y][x].getCharacterOwnership();
+        gameBoard[y][x].setCharacterOwnership("XX");
+        gameBoard[y2][x2].setCharacterOwnership(temp);
+    }
+    public void loss(int x, int y){
+        gameBoard[y][x].setCharacterOwnership("XX");
     }
 
     public void initializePlayerCharacterSelections(classTemplate[] characterSelections){
@@ -60,7 +74,7 @@ public class gameBoard {
         }
     }
 
-    public void battle(classTemplate characterOne, classTemplate characterTwo){
+    public classTemplate battle(classTemplate characterOne, classTemplate characterTwo){
         while (characterOne.isAlive() && characterTwo.isAlive()) {
             Random rand = new Random();
             int random = rand.nextInt(0, 2);
@@ -82,7 +96,11 @@ public class gameBoard {
         }
         if (characterOne.isAlive()){
             System.out.println(characterOne.getName() + " Comes Out Victorious!");
-        } else System.out.println(characterTwo.getName() + " Comes Out Victorious!");
+            return(characterOne);
+        } else{
+            System.out.println(characterTwo.getName() + " Comes Out Victorious!");
+            return(characterTwo);
+        }
     }
 
     public void displayFight(classTemplate characterOne, classTemplate characterTwo){
