@@ -1,8 +1,56 @@
 import java.util.ArrayList;
 import java.util.Scanner;
+import java.io.*;
+
+class WriteFile {
+    private String path;
+    private boolean append_to_file = true;
+    public void writeToFile( String textLine ) throws IOException {
+        FileWriter write = new FileWriter( path , append_to_file);
+        PrintWriter print_line = new PrintWriter( write );
+
+        print_line.printf(textLine);
+        print_line.close();
+
+        //boolean temp = true;
+        //                //add board state to arraylist (irrelevant for now important for later 04/03/2024 Rhett Ward
+        //                for (int i = 0; i <= BrdSt.size() - 1; i++) {
+        //                    if (BrdSt.get(i) == nboard) {
+        //                        temp = false;
+        //                    } else {
+        //                        temp = true;
+        //                    }
+        //                }
+        //                if (temp) {
+        //                    BrdSt.add(nboard);
+        //                }
+        //            }
+        //            n--; // start new instance 04/03/2024 Rhett Ward
+        //        }
+        //        String in = "";
+        //        //print out all board states from array list 04/03/2024 Rhett Ward
+        //        for (int t = 0; t < BrdSt.size() - 1; t++) {
+        //            int[][] paper = BrdSt.get(t);
+        //            for (int i = 0; i < 3; i++) {
+        //                for (int b = 0; b < 3; b++) {
+        //                    in += paper[i][b] + " ";
+        //                }
+        //                data.writeToFile(in);
+        //                data.writeToFile("%n");
+        //                in = "";
+        //            }
+        //            data.writeToFile("---");
+        //            data.writeToFile("%n");
+        //        }
+    }
+    public WriteFile(String file_path){
+        path = file_path;
+
+    }
+}
 
 public class Main {
-
+    WriteFile data = new WriteFile("Board.txt");
     public static gameBoard gameBoard;
     public static ArrayList<int[][]> BrdSt = new ArrayList<int[][]>();
     public static int test = 0; // don't worry about
@@ -533,8 +581,19 @@ public class Main {
                     Y3 = ((int) (Math.random() * 3));
                     Y4 = ((int) (Math.random() * 3));
                 }
+                boolean temp = true;
                 //add board state to arraylist (irrelevant for now important for later 04/03/2024 Rhett Ward
-                BrdSt.add(nboard);
+                for (int i = 0; i <= BrdSt.size() - 1; i++){
+                    if(BrdSt.get(i) == nboard){
+                        temp = false;
+                    }
+                    else{
+                        temp = true;
+                    }
+                }
+                if (temp) {
+                    BrdSt.add(nboard);
+                }
                 gameBoard.displayBoard();
             }
             n--; // start new instance 04/03/2024 Rhett Ward
@@ -651,12 +710,12 @@ public class Main {
 
         return (nboard);
     }
-    public static void main(String[] args) {
+    public static void main(String[] args) throws IOException{
         //scanner for making moves
         Scanner scan = new Scanner(System.in);
 
         gameBoard = new gameBoard(); // sets up DnD board
-
+        //Visuals v = new Visuals();
         //sets up board
         int[][] board = Setup();
         // loop for running the game
