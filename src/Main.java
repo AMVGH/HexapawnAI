@@ -2,7 +2,7 @@ import java.util.ArrayList;
 import java.util.Scanner;
 import java.io.*;
 
-class WriteFile {
+/* class WriteFile {
     private String path;
     private boolean append_to_file = true;
     public void writeToFile( String textLine ) throws IOException {
@@ -47,12 +47,22 @@ class WriteFile {
         path = file_path;
 
     }
-}
+} */
 
+
+//------------------------------------------------------------------------------------------------------------------------------------
+//
+//      FORMATTING CONVENTIONS
+//      Evan's note: adding a P to the end of a function means that it is meant for use with the D&D half of the program
+//
+//
+//------------------------------------------------------------------------------------------------------------------------------------
 public class Main {
-    WriteFile data = new WriteFile("Board.txt");
+    //WriteFile data = new WriteFile("Board.txt");
     public static gameBoard gameBoard;
     public static ArrayList<int[][]> BrdSt = new ArrayList<int[][]>();
+
+    static AI[] ais = {new AI(1), new AI(2)};
     public static int test = 0; // don't worry about
     public static int test2 = 0;
     // this is a variable that will be used to make sure one player doesn't move twice in a row Rhett Ward 02/26/2024
@@ -80,17 +90,28 @@ public class Main {
         // System.out.println("welcome to hexapawn.");
         return board;
     } //comments inside 02/29/2024 Rhett Ward
-
+    public static void rewardai(int winner)
+    {
+        int loser = 1;
+        if(winner == 1)
+        {
+            loser = 2;
+        }
+        ais[winner-1].onWin();
+        ais[loser-1].onLoss();
+    }
     //Condensed all the checks for if the game has ended into a method to be called after every move is made. 02/29/2024 Rhett Ward
     public static int Win_check(int[][] board,int last){
         // the two checks to determine if a win has occurred 02/27/2024 Rhett Ward
         if(board[0][0] == 2 || board[0][1] == 2 || board[0][2] == 2 ){
             System.out.println("Player 2 wins");
+            rewardai(2);
             test2++;
             return 6;
         }
         if(board[2][0] == 1 || board[2][1] == 1 || board[2][2] == 1){
             System.out.println("Player 1 wins");
+            rewardai(1);
             test++;
             return 6;
         }
@@ -122,21 +143,25 @@ public class Main {
 
         if(last==1 && c3 == c1){ // if player 2 can't move, player 1 wins
             System.out.println("Player 1 wins");
+            rewardai(1);
             test++;
             return 6;
         }
         if(last==2 && c4 == c2){ // if player 1 can't move, player 2 wins
             System.out.println("Player 2 wins");
+            rewardai(2);
             test2++;
             return 6;
         }
         if(c1 == 0){ // if player 1 has no pieces left 02/27/2024 Rhett Ward
             System.out.println("Player 2 wins");
+            rewardai(2);
             test2++;
             return 6;
         }
         if(c2 == 0){ // if player 2 has no pieces left 02/27/2024 Rhett Ward
             System.out.println("Player 1 wins");
+            rewardai(1);
             test++;
             return 6;
         }
@@ -616,68 +641,23 @@ public class Main {
         while (n != 0) { //condition to run that many games 04/03/2024 Rhett Ward
             board = Setup(); // sets the board up at the beginning of each game 04/03/2024 Rhett Ward
             sc = 1; // loop condition 04/03/2024 Rhett Ward
-            int[][] nboard = board; // sets a secondary board that is a direct reference to board 04/03/2024 Rhett Ward
-
-            // randomly creates 4 input variables for making a move 04/03/2024 Rhett Ward
-            int X3 = ((int) (Math.random() * 3));
-            int Y3 = ((int) (Math.random() * 3));
-            int X4 = ((int) (Math.random() * 3));
-            int Y4 = ((int) (Math.random() * 3));
-
 
             while (sc != 6) { // while a game has not been won 04/03/2024 Rhett Ward
-
-                if (nboard[Y4][X4] == last) { // prevents a certain infinite loop that occurs when a particular move was trying to be made that somehow avoided re randomization 04/03/2024 Rhett Ward
-
-                    // sets all inputs to 0 which forces a conflict which forces re - randomization 04/03/2024 Rhett Ward
-                    X4 = 0;
-                    X3 = 0;
-                    Y3 = 0;
-                    Y4 = 0;
-                }
-
-                //while move is not valid, randomize inputs until it is 04/03/2024 Rhett Ward
-                while (move_check(nboard, X3, Y3, X4, Y4)) {
-                    X3 = ((int) (Math.random() * 3));
-                    X4 = ((int) (Math.random() * 3));
-                    Y3 = ((int) (Math.random() * 3));
-                    Y4 = ((int) (Math.random() * 3));
-                }
-                //add board state to arraylist (irrelevant for now important for later 04/03/2024 Rhett Ward
-                BrdSt.add(nboard);
+                AI_Move(board);
             }
             n--; // start new instance 04/03/2024 Rhett Ward
         }
     }
 
     public static int[][] AI_Move(int[][] board){
-
-        // made on 04/07/2024 Rhett Ward, makes 1 Randomly generated Move.
-        sc =  1; // loop condition 04/03/2024 Rhett Ward
-        int[][] nboard = board; // sets a secondary board that is a direct reference to board 04/03/2024 Rhett Ward
-
-        boolean bed = true; // 04/07/2024 Rhett Ward, condition variable
-
-        // randomly creates 4 input variables for making a move 04/03/2024 Rhett Ward
-        int X3 = ((int) (Math.random() * 3));
-        int Y3 = ((int) (Math.random() * 3));
-        int X4 = ((int) (Math.random() * 3));
-        int Y4 = ((int) (Math.random() * 3));
-
-        //while move is not valid, randomize inputs until it is 04/03/2024 Rhett Ward
-        while(bed) {
-            if (move_check(nboard, X3, Y3, X4, Y4)) {
-                X3 = ((int) (Math.random() * 3));
-                X4 = ((int) (Math.random() * 3));
-                Y3 = ((int) (Math.random() * 3));
-                Y4 = ((int) (Math.random() * 3));
-            }
-            else {
-                bed = false;
-            }
+        int next = last + 1;
+        if (next > 2) {
+            next = 1;
         }
-
-        return (nboard);
+        AI.boardAndMove nextMove = ais[next-1].move(board);
+        // call move check to perform win evaluation
+        move_check(board, nextMove.x1, nextMove.y1, nextMove.x2, nextMove.y2);
+        return board;
     }
 
     public static int[][] AI_MoveP(int[][] board){
@@ -710,6 +690,8 @@ public class Main {
 
         return (nboard);
     }
+
+
     public static void main(String[] args) throws IOException{
         //scanner for making moves
         Scanner scan = new Scanner(System.in);
@@ -754,7 +736,7 @@ public class Main {
                     int Y1 = Integer.parseInt(scan.nextLine());
 
                     // first 2 checks
-                    if(move_check(board, X1, Y1)) {
+                    if (move_check(board, X1, Y1)) {
                         break;
                     }
 
@@ -766,7 +748,7 @@ public class Main {
                     int Y2 = Integer.parseInt(scan.nextLine());
 
                     // second 2 checks
-                    if(move_check(board, X1, Y1, X2, Y2)) {
+                    if (move_check(board, X1, Y1, X2, Y2)) {
                         break;
                     }
 
@@ -785,7 +767,7 @@ public class Main {
                     System.out.println("Player 2 wins: " + test2);
 
                     // reset switch but don't kill the program 04/03/2024 Rhett Ward
-                    sc=1;
+                    sc = 1;
                     break;
                 case 4:
                     System.out.println("Where will you move?");
@@ -800,7 +782,7 @@ public class Main {
                     Y1 = Integer.parseInt(scan.nextLine());
 
                     // first 2 checks
-                    if(move_check(board, X1, Y1)) {
+                    if (move_check(board, X1, Y1)) {
                         break;
                     }
 
@@ -812,7 +794,7 @@ public class Main {
                     Y2 = Integer.parseInt(scan.nextLine());
 
                     // second 2 checks
-                    if(move_check(board, X1, Y1, X2, Y2)) {
+                    if (move_check(board, X1, Y1, X2, Y2)) {
                         break;
                     }
 
@@ -832,8 +814,8 @@ public class Main {
                     //Array initialized to store selected characters
                     classTemplate[] chosenCharacters = new classTemplate[3];
                     //Character selection
-                    for (int i = 0; i < 3; i++){
-                        System.out.print("Selection "+(i+1)+": ");
+                    for (int i = 0; i < 3; i++) {
+                        System.out.print("Selection " + (i + 1) + ": ");
                         characterChoice = (Integer.parseInt(scan.nextLine()));
                         classTemplate temp = chosenCharacter(characterChoice);
                         temp.setCharacterOwnership("P1");
@@ -843,7 +825,7 @@ public class Main {
                     //Sets Up Initial Game Board
                     gameBoard.boardSetup(chosenCharacters);
 
-                    while(sc2) {
+                    while (sc2) {
 
                         gameBoard.displayBoard();
 
@@ -891,14 +873,14 @@ public class Main {
                                 System.out.println("How many simulations do you want to run?"); //number of games to be played 04/03/2024 Rhett Ward
                                 n = Integer.parseInt(scan.nextLine()); //Int for ^ 04/03/2024 Rhett Ward
 
-                                AI_GameP(n, board,chosenCharacters);
+                                AI_GameP(n, board, chosenCharacters);
 
                                 //print out number of wins from each side 04/03/2024 Rhett Ward
                                 System.out.println("Player 1 wins: " + test);
                                 System.out.println("Player 2 wins: " + test2);
 
                                 // reset switch but don't kill the program 04/03/2024 Rhett Ward
-                                sc=1;
+                                sc = 1;
                                 break;
                         }
                     }

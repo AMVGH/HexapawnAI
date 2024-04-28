@@ -26,11 +26,11 @@ class AI {
         int[][] b = Main.Setup();
         matchbox m = new matchbox(b, this.side);
         for (int i = 0; i < m.beads.size(); i++ ) {
-            printBoard(m.beads.get(i));
+            printBoard(m.beads.get(i).board);
         }
 
         System.out.println("-----");
-        int[][] mv = move(b);
+        int[][] mv = move(b).board;
         printBoard(mv);
     }
 
@@ -39,11 +39,26 @@ class AI {
         ai.Testing();
     }
 
+    public static class boardAndMove {
+        int[][] board;
+        int x1;
+        int y1;
+        int x2;
+        int y2;
+
+        boardAndMove(int[][] b, int x1, int y1, int x2, int y2) {
+            this.board = b;
+            this.x1 = x1;
+            this.y1 = y1;
+            this.x2 = x2;
+            this.y2 = y2;
+        }
+    }
     public class matchbox {
 
         private String Label;
-        private ArrayList<int[][]> beads = new ArrayList<>(9);
-        private ArrayList<int[][]> beadsOriginal;
+        private ArrayList<boardAndMove> beads = new ArrayList<>(9);
+        private ArrayList<boardAndMove> beadsOriginal;
 
         private int currentBead = -1;
         private int[][] copyBoard(int[][] in)
@@ -94,9 +109,9 @@ class AI {
                             {
                                 continue;
                             }
-                            int[][] newBead = copyBoard(board);
-                            move_check(newBead, x, y, x + i, y + direction);
-                            if(!boardsequal(newBead, board))
+                            boardAndMove newBead = new boardAndMove( copyBoard(board), x, y, x+ i, y + direction);
+                            move_check(newBead.board, newBead.x1, newBead.y1, newBead.x2, newBead.y2);
+                            if(!boardsequal(newBead.board, board))
                             {
                                 beads.add(newBead);
                             }
@@ -111,7 +126,7 @@ class AI {
             beadsOriginal = new ArrayList<>(beads);
         }
 
-        public int[][] pickMove()
+        public boardAndMove pickMove()
         {
             if (beads.isEmpty())  // for safety, if the box runs out of beads
             {
@@ -147,7 +162,7 @@ class AI {
 
 
     }
-    public int[][] move(int[][] currentBoard)
+    public boardAndMove move(int[][] currentBoard)
     {
         String name = convertBoardToName(currentBoard);
         matchbox currentBox = memory.get(name);
